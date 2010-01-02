@@ -1,0 +1,365 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Quick start guide &mdash; django-registration v0.8 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.8',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="django-registration v0.8 documentation" href="index.html" />
+    <link rel="next" title="Release notes" href="release-notes.html" />
+    <link rel="prev" title="django-registration 0.8 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="release-notes.html" title="Release notes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="django-registration 0.8 documentation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">django-registration v0.8 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="quick-start-guide">
+<span id="quickstart"></span><h1>Quick start guide<a class="headerlink" href="#quick-start-guide" title="Permalink to this headline">¶</a></h1>
+<p>Before installing django-registration, you&#8217;ll need to have a copy of
+<a class="reference external" href="http://www.djangoproject.com">Django</a> already installed. For the
+0.8 release, Django 1.1 or newer is required.</p>
+<p>For further information, consult the <a class="reference external" href="http://www.djangoproject.com/download/">Django download page</a>, which offers convenient
+packaged downloads and installation instructions.</p>
+<div class="section" id="installing-django-registration">
+<h2>Installing django-registration<a class="headerlink" href="#installing-django-registration" title="Permalink to this headline">¶</a></h2>
+<p>There are several ways to install django-registration:</p>
+<ul class="simple">
+<li>Automatically, via a package manager.</li>
+<li>Manually, by downloading a copy of the release package and
+installing it yourself.</li>
+<li>Manually, by performing a Mercurial checkout of the latest code.</li>
+</ul>
+<p>It is also highly recommended that you learn to use <a class="reference external" href="http://pypi.python.org/pypi/virtualenv">virtualenv</a> for development and
+deployment of Python software; <tt class="docutils literal"><span class="pre">virtualenv</span></tt> provides isolated Python
+environments into which collections of software (e.g., a copy of
+Django, and the necessary settings and applications for deploying a
+site) can be installed, without conflicting with other installed
+software. This makes installation, testing, management and deployment
+far simpler than traditional site-wide installation of Python
+packages.</p>
+<div class="section" id="automatic-installation-via-a-package-manager">
+<h3>Automatic installation via a package manager<a class="headerlink" href="#automatic-installation-via-a-package-manager" title="Permalink to this headline">¶</a></h3>
+<p>Several automatic package-installation tools are available for Python;
+the most popular are <a class="reference external" href="http://peak.telecommunity.com/DevCenter/EasyInstall">easy_install</a> and <a class="reference external" href="http://pip.openplans.org/">pip</a>. Either can be used to install
+django-registration.</p>
+<p>Using <tt class="docutils literal"><span class="pre">easy_install</span></tt>, type:</p>
+<div class="highlight-python"><pre>easy_install -Z django-registration</pre>
+</div>
+<p>Note that the <tt class="docutils literal"><span class="pre">-Z</span></tt> flag is required, to tell <tt class="docutils literal"><span class="pre">easy_install</span></tt> not to
+create a zipped package; zipped packages prevent certain features of
+Django from working properly.</p>
+<p>Using <tt class="docutils literal"><span class="pre">pip</span></tt>, type:</p>
+<div class="highlight-python"><pre>pip install django-registration</pre>
+</div>
+<p>It is also possible that your operating system distributor provides a
+packaged version of django-registration (for example, <a class="reference external" href="http://debian.org/">Debian
+GNU/Linux</a> provides a package, installable via
+<tt class="docutils literal"><span class="pre">apt-get-install</span> <span class="pre">python-django-registration</span></tt>). Consult your
+operating system&#8217;s package list for details, but be aware that
+third-party distributions may be providing older versions of
+django-registration, and so you should consult the documentation which
+comes with your operating system&#8217;s package.</p>
+</div>
+<div class="section" id="manual-installation-from-a-downloaded-package">
+<h3>Manual installation from a downloaded package<a class="headerlink" href="#manual-installation-from-a-downloaded-package" title="Permalink to this headline">¶</a></h3>
+<p>If you prefer not to use an automated package installer, you can
+download a copy of django-registration and install it manually. The
+latest release package can be downloaded from <a class="reference external" href="http://pypi.python.org/pypi/django-registration/">django-registration&#8217;s
+listing on the Python Package Index</a>.</p>
+<p>Once you&#8217;ve downloaded the package, unpack it (on most operating
+systems, simply double-click; alternately, type <tt class="docutils literal"><span class="pre">tar</span> <span class="pre">zxvf</span>
+<span class="pre">django-registration-0.8.tar.gz</span></tt> at a command line on Linux, Mac OS X
+or other Unix-like systems). This will create the directory
+<tt class="docutils literal"><span class="pre">django-registration-0.8</span></tt>, which contains the <tt class="docutils literal"><span class="pre">setup.py</span></tt>
+installation script. From a command line in that directory, type:</p>
+<div class="highlight-python"><pre>python setup.py install</pre>
+</div>
+<p>Note that on some systems you may need to execute this with
+administrative privileges (e.g., <tt class="docutils literal"><span class="pre">sudo</span> <span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></tt>).</p>
+</div>
+<div class="section" id="manual-installation-from-a-mercurial-checkout">
+<h3>Manual installation from a Mercurial checkout<a class="headerlink" href="#manual-installation-from-a-mercurial-checkout" title="Permalink to this headline">¶</a></h3>
+<p>If you&#8217;d like to try out the latest in-development code, you can
+obtain it from the django-registration repository, which is hosted at
+<a class="reference external" href="http://bitbucket.org/">Bitbucket</a> and uses <a class="reference external" href="http://www.selenic.com/mercurial/wiki/">Mercurial</a> for version control. To
+obtain the latest code and documentation, you&#8217;ll need to have
+Mercurial installed, at which point you can type:</p>
+<div class="highlight-python"><pre>hg clone http://bitbucket.org/ubernostrum/django-registration/</pre>
+</div>
+<p>You can also obtain a copy of a particular release of
+django-registration by specifying the <tt class="docutils literal"><span class="pre">-r</span></tt> argument to <tt class="docutils literal"><span class="pre">hg</span> <span class="pre">clone</span></tt>;
+each release is given a tag of the form <tt class="docutils literal"><span class="pre">vX.Y</span></tt>, where &#8220;X.Y&#8221; is the
+release number. So, for example, to check out a copy of the 0.8
+release, type:</p>
+<div class="highlight-python"><pre>hg clone -r v0.8 http://bitbucket.org/ubernostrum/django-registration/</pre>
+</div>
+<p>In either case, this will create a copy of the django-registration
+Mercurial repository on your computer; you can then add the
+<tt class="docutils literal"><span class="pre">django-registration</span></tt> directory inside the checkout your Python
+import path, or use the <tt class="docutils literal"><span class="pre">setup.py</span></tt> script to install as a package.</p>
+</div>
+</div>
+<div class="section" id="basic-configuration-and-use">
+<h2>Basic configuration and use<a class="headerlink" href="#basic-configuration-and-use" title="Permalink to this headline">¶</a></h2>
+<p>Once installed, you can add django-registration to any Django-based
+project you&#8217;re developing. The default setup will enable user
+registration with the following workflow:</p>
+<ol class="arabic simple">
+<li>A user signs up for an account by supplying a username, email
+address and password.</li>
+<li>From this information, a new <tt class="docutils literal"><span class="pre">User</span></tt> object is created, with its
+<tt class="docutils literal"><span class="pre">is_active</span></tt> field set to <tt class="xref docutils literal"><span class="pre">False</span></tt>. Additionally, an activation
+key is generated and stored, and an email is sent to the user
+containing a link to click to activate the account.</li>
+<li>Upon clicking the activation link, the new account is made active
+(the <tt class="docutils literal"><span class="pre">is_active</span></tt> field is set to <tt class="xref docutils literal"><span class="pre">True</span></tt>); after this, the user
+can log in.</li>
+</ol>
+<p>Note that the default workflow requires <tt class="docutils literal"><span class="pre">django.contrib.auth</span></tt> to be
+installed, and it is recommended that <tt class="docutils literal"><span class="pre">django.contrib.sites</span></tt> be
+installed as well. You will also need to have a working mail server
+(for sending activation emails), and provide Django with the necessary
+settings to make use of this mail server (consult <a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/email/">Django&#8217;s
+email-sending documentation</a> for details).</p>
+<div class="section" id="required-settings">
+<h3>Required settings<a class="headerlink" href="#required-settings" title="Permalink to this headline">¶</a></h3>
+<p>Begin by adding <tt class="docutils literal"><span class="pre">registration</span></tt> to the <tt class="docutils literal"><span class="pre">INSTALLED_APPS</span></tt> setting of
+your project, and specifying one additional setting:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">ACCOUNT_ACTIVATION_DAYS</span></tt></dt>
+<dd>This is the number of days users will have to activate their
+accounts after registering. If a user does not activate within
+that period, the account will remain permanently inactive and may
+be deleted by maintenance scripts provided in django-registration.</dd>
+</dl>
+<p>For example, you might have something like the following in your
+Django settings file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s">&#39;django.contrib.auth&#39;</span><span class="p">,</span>
+    <span class="s">&#39;django.contrib.sites&#39;</span><span class="p">,</span>
+    <span class="s">&#39;registration&#39;</span><span class="p">,</span>
+    <span class="c"># ...other installed applications...</span>
+<span class="p">)</span>
+
+<span class="n">ACCOUNT_ACTIVATION_DAYS</span> <span class="o">=</span> <span class="mi">7</span> <span class="c"># One-week activation window; you may, of course, use a different value.</span>
+</pre></div>
+</div>
+<p>Once you&#8217;ve done this, run <tt class="docutils literal"><span class="pre">manage.py</span> <span class="pre">syncdb</span></tt> to install the model
+used by the default setup.</p>
+</div>
+<div class="section" id="setting-up-urls">
+<h3>Setting up URLs<a class="headerlink" href="#setting-up-urls" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference external" href="default-backend.html#default-backend"><em>default backend</em></a> includes a Django
+<tt class="docutils literal"><span class="pre">URLconf</span></tt> which sets up URL patterns for <a class="reference external" href="views.html#views"><em>the views in
+django-registration</em></a>, as well as several useful views in
+<tt class="docutils literal"><span class="pre">django.contrib.auth</span></tt> (e.g., login, logout, password
+change/reset). This <tt class="docutils literal"><span class="pre">URLconf</span></tt> can be found at
+<tt class="docutils literal"><span class="pre">registration.backends.default.urls</span></tt>, and so can simply be included
+in your project&#8217;s root URL configuration. For example, to place the
+URLs under the prefix <tt class="docutils literal"><span class="pre">/accounts/</span></tt>, you could add the following to
+your project&#8217;s root <tt class="docutils literal"><span class="pre">URLconf</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s">r&#39;^accounts/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s">&#39;registration.backends.default.urls&#39;</span><span class="p">)),</span>
+</pre></div>
+</div>
+<p>Users would then be able to register by visiting the URL
+<tt class="docutils literal"><span class="pre">/accounts/register/</span></tt>, login (once activated) at
+<tt class="docutils literal"><span class="pre">/accounts/login/</span></tt>, etc.</p>
+</div>
+<div class="section" id="required-templates">
+<h3>Required templates<a class="headerlink" href="#required-templates" title="Permalink to this headline">¶</a></h3>
+<p>In the default setup, you will need to create several templates
+required by django-registration, and possibly additional templates
+required by views in <tt class="docutils literal"><span class="pre">django.contrib.auth</span></tt>. The templates requires
+by django-registration are as follows; note that, with the exception
+of the templates used for account activation emails, all of these are
+rendered using a <tt class="docutils literal"><span class="pre">RequestContext</span></tt> and so will also receive any
+additional variables provided by <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/templates/api/#id1">context processors</a>.</p>
+<p><strong>registration/registration_form.html</strong></p>
+<p>Used to show the form users will fill out to register. By default, has
+the following context:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">form</span></tt></dt>
+<dd>The registration form. This will be an instance of some subclass
+of <tt class="docutils literal"><span class="pre">django.forms.Form</span></tt>; consult <a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/forms/">Django&#8217;s forms documentation</a> for
+information on how to display this in a template.</dd>
+</dl>
+<p><strong>registration/registration_complete.html</strong></p>
+<p>Used after successful completion of the registration form. This
+template has no context variables of its own, and should simply inform
+the user that an email containing account-activation information has
+been sent.</p>
+<p><strong>registration/activate.html</strong></p>
+<p>Used if account activation fails. With the default setup, has the following context:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">activation_key</span></tt></dt>
+<dd>The activation key used during the activation attempt.</dd>
+</dl>
+<p><strong>registration/activation_complete.html</strong></p>
+<p>Used after successful account activation. This template has no context
+variables of its own, and should simply inform the user that their
+account is now active.</p>
+<p><strong>registration/activation_email_subject.txt</strong></p>
+<p>Used to generate the subject line of the activation email. Because the
+subject line of an email must be a single line of text, any output
+from this template will be forcibly condensed to a single line before
+being used. This template has the following context:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">activation_key</span></tt></dt>
+<dd>The activation key for the new account.</dd>
+<dt><tt class="docutils literal"><span class="pre">expiration_days</span></tt></dt>
+<dd>The number of days remaining during which the account may be
+activated.</dd>
+<dt><tt class="docutils literal"><span class="pre">site</span></tt></dt>
+<dd>An object representing the site on which the user registered;
+depending on whether <tt class="docutils literal"><span class="pre">django.contrib.sites</span></tt> is installed, this
+may be an instance of either <tt class="docutils literal"><span class="pre">django.contrib.sites.models.Site</span></tt>
+(if the sites application is installed) or
+<tt class="docutils literal"><span class="pre">django.contrib.sites.models.RequestSite</span></tt> (if not). Consult <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/sites/">the
+documentation for the Django sites framework</a> for
+details regarding these objects&#8217; interfaces.</dd>
+</dl>
+<p><strong>registration/activation_email.txt</strong></p>
+<p>Used to generate the body of the activation email. Should display a
+link the user can click to activate the account. This template has the
+following context:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">activation_key</span></tt></dt>
+<dd>The activation key for the new account.</dd>
+<dt><tt class="docutils literal"><span class="pre">expiration_days</span></tt></dt>
+<dd>The number of days remaining during which the account may be
+activated.</dd>
+<dt><tt class="docutils literal"><span class="pre">site</span></tt></dt>
+<dd>An object representing the site on which the user registered;
+depending on whether <tt class="docutils literal"><span class="pre">django.contrib.sites</span></tt> is installed, this
+may be an instance of either <tt class="docutils literal"><span class="pre">django.contrib.sites.models.Site</span></tt>
+(if the sites application is installed) or
+<tt class="docutils literal"><span class="pre">django.contrib.sites.models.RequestSite</span></tt> (if not). Consult <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/sites/">the
+documentation for the Django sites framework</a> for
+details regarding these objects&#8217; interfaces.</dd>
+</dl>
+<p>Note that the templates used to generate the account activation email
+use the extension <tt class="docutils literal"><span class="pre">.txt</span></tt>, not <tt class="docutils literal"><span class="pre">.html</span></tt>. Due to widespread antipathy
+toward and interoperability problems with HTML email,
+django-registration defaults to plain-text email, and so these
+templates should simply output plain text rather than HTML.</p>
+<p>To make use of the views from <tt class="docutils literal"><span class="pre">django.contrib.auth</span></tt> (which are set
+up for you by the default URLconf mentioned above), you will also need
+to create the templates required by those views. Consult <a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/auth/#django.contrib.auth.views.login">the
+documentation for Django&#8217;s authentication system</a>
+for details regarding these templates.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">Quick start guide</a><ul>
+<li><a class="reference external" href="#installing-django-registration">Installing django-registration</a><ul>
+<li><a class="reference external" href="#automatic-installation-via-a-package-manager">Automatic installation via a package manager</a></li>
+<li><a class="reference external" href="#manual-installation-from-a-downloaded-package">Manual installation from a downloaded package</a></li>
+<li><a class="reference external" href="#manual-installation-from-a-mercurial-checkout">Manual installation from a Mercurial checkout</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#basic-configuration-and-use">Basic configuration and use</a><ul>
+<li><a class="reference external" href="#required-settings">Required settings</a></li>
+<li><a class="reference external" href="#setting-up-urls">Setting up URLs</a></li>
+<li><a class="reference external" href="#required-templates">Required templates</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="index.html"
+                                  title="previous chapter">django-registration 0.8 documentation</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="release-notes.html"
+                                  title="next chapter">Release notes</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/quickstart.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="release-notes.html" title="Release notes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="django-registration 0.8 documentation"
+             >previous</a> |</li>
+        <li><a href="index.html">django-registration v0.8 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, James Bennett.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+  </body>
+</html>

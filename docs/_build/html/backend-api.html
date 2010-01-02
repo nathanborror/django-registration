@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>User registration backends &mdash; django-registration v0.8 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.8',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="django-registration v0.8 documentation" href="index.html" />
+    <link rel="next" title="The default backend" href="default-backend.html" />
+    <link rel="prev" title="Upgrade guide" href="upgrade.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="default-backend.html" title="The default backend"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="upgrade.html" title="Upgrade guide"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">django-registration v0.8 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="user-registration-backends">
+<span id="backend-api"></span><h1>User registration backends<a class="headerlink" href="#user-registration-backends" title="Permalink to this headline">¶</a></h1>
+<p>At its core, django-registration is built around the idea of pluggable
+backends which can implement different workflows for user
+registration. Although <a class="reference external" href="default-backend.html#default-backend"><em>the default backend</em></a>
+uses a common two-phase system (registration followed by activation),
+backends are generally free to implement any workflow desired by their
+authors.</p>
+<p>This is deliberately meant to be complementary to Django&#8217;s own
+<a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/auth/#other-authentication-sources">pluggable authentication backends</a>;
+a site which uses an OpenID authentication backend, for example, can
+and should make use of a registration backend which handles signups
+via OpenID. And, like a Django authentication backend, a registration
+backend is simply a class which implements a particular standard API
+(described below).</p>
+<p>This allows for a great deal of flexibility in the actual workflow of
+registration; backends can, for example, implement any of the
+following (not an exhaustive list):</p>
+<ul class="simple">
+<li>One-step (register, and done) or multi-step (register and activate)
+signup.</li>
+<li>Invitation-based registration.</li>
+<li>Selectively allowing or disallowing registration (e.g., by requiring
+particular credentials to register).</li>
+<li>Enabling/disabling registration entirely.</li>
+<li>Registering via sources other than a standard username/password,
+such as OpenID.</li>
+<li>Selective customization of the registration process (e.g., using
+different forms or imposing different requirements for different
+types of users).</li>
+</ul>
+<div class="section" id="specifying-the-backend-to-use">
+<h2>Specifying the backend to use<a class="headerlink" href="#specifying-the-backend-to-use" title="Permalink to this headline">¶</a></h2>
+<p>To determine which backend to use, the <a class="reference external" href="views.html#views"><em>views in
+django-registration</em></a> accept a keyword argument <tt class="docutils literal"><span class="pre">backend</span></tt>; in
+all cases, this should be a string containing the full dotted Python
+import path to the backend class to be used. So, for example, to use
+the default backend, you&#8217;d pass the string
+<tt class="docutils literal"><span class="pre">'registration.backends.default.DefaultBackend'</span></tt> as the value of the
+<tt class="docutils literal"><span class="pre">backend</span></tt> argument (and the default URLconf included with that
+backend does so). The specified backend class will then be imported
+and instantiated (by calling its constructor with no arguments), and
+the resulting instance will be used for all backend-specific
+functionality.</p>
+<p>If the specified backend class cannot be imported, django-registration
+will raise <tt class="docutils literal"><span class="pre">django.core.exceptions.ImproperlyConfigured</span></tt>.</p>
+</div>
+<div class="section" id="id1">
+<h2>Backend API<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>To be used as a registration backend, a class must implement the
+following methods. For many cases, subclassing the default backend and
+selectively overriding behavior will be suitable, but for other
+situations (e.g., workflows significantly different from the default)
+a full implementation is needed.</p>
+<div class="section" id="register-request-kwargs">
+<h3>register(request, **kwargs)<a class="headerlink" href="#register-request-kwargs" title="Permalink to this headline">¶</a></h3>
+<p>This method implements the logic of actually creating the new user
+account. Often, but not necessarily always, this will involve creating
+an instance of <tt class="docutils literal"><span class="pre">django.contrib.auth.models.User</span></tt> from the supplied
+data.</p>
+<p>This method will only be called after a signup form has been
+displayed, and the data collected by the form has been properly
+validated.</p>
+<p>Arguments to this method are:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">request</span></tt></dt>
+<dd>The Django <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/request-response/#httprequest-objects">HttpRequest</a>
+object in which a new user is attempting to register.</dd>
+<dt><tt class="docutils literal"><span class="pre">**kwargs</span></tt></dt>
+<dd>A dictionary of the <tt class="docutils literal"><span class="pre">cleaned_data</span></tt> from the signup form.</dd>
+</dl>
+<p>After creating the new user account, this method should create or
+obtain an instance of <tt class="docutils literal"><span class="pre">django.contrib.auth.models.User</span></tt> representing
+that account. It should then send the signal
+<a title="registration.signals.user_registered" class="reference external" href="signals.html#registration.signals.user_registered"><tt class="xref docutils literal"><span class="pre">registration.signals.user_registered</span></tt></a>, with three arguments:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">sender</span></tt></dt>
+<dd>The backend class (e.g., <tt class="docutils literal"><span class="pre">self.__class__</span></tt>).</dd>
+<dt><tt class="docutils literal"><span class="pre">user</span></tt></dt>
+<dd>The <tt class="docutils literal"><span class="pre">User</span></tt> instance representing the new account.</dd>
+<dt><tt class="docutils literal"><span class="pre">request</span></tt></dt>
+<dd>The <tt class="docutils literal"><span class="pre">HttpRequest</span></tt> in which the user registered.</dd>
+</dl>
+<p>Finally, this method should return the <tt class="docutils literal"><span class="pre">User</span></tt> instance.</p>
+</div>
+<div class="section" id="activate-request-kwargs">
+<h3>activate(request, **kwargs)<a class="headerlink" href="#activate-request-kwargs" title="Permalink to this headline">¶</a></h3>
+<p>For workflows which require a separate activation step, this method
+should implement the necessary logic for account activation.</p>
+<p>Arguments to this method are:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">request</span></tt></dt>
+<dd>The Django <tt class="docutils literal"><span class="pre">HttpRequest</span></tt> object in which the account is being
+activated.</dd>
+<dt><tt class="docutils literal"><span class="pre">**kwargs</span></tt></dt>
+<dd>A dictionary of any additional arguments (e.g., information
+captured from the URL, such as an activation key) received by the
+<a title="registration.views.activate" class="reference external" href="views.html#registration.views.activate"><tt class="xref docutils literal"><span class="pre">activate()</span></tt></a> view. The combination of the
+<tt class="docutils literal"><span class="pre">HttpRequest</span></tt> and this additional information must be sufficient
+to identify the account which will be activated.</dd>
+</dl>
+<p>If the account cannot be successfully activated (for example, in the
+default backend if the activation period has expired), this method
+should return <tt class="xref docutils literal"><span class="pre">False</span></tt>.</p>
+<p>If the account is successfully activated, this method should create or
+obtain an instance of <tt class="docutils literal"><span class="pre">django.contrib.auth.models.User</span></tt> representing
+the activated account. It should then send the signal
+<a title="registration.signals.user_activated" class="reference external" href="signals.html#registration.signals.user_activated"><tt class="xref docutils literal"><span class="pre">registration.signals.user_activated</span></tt></a>, with three arguments:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">sender</span></tt></dt>
+<dd>The backend class.</dd>
+<dt><tt class="docutils literal"><span class="pre">user</span></tt></dt>
+<dd>The <tt class="docutils literal"><span class="pre">User</span></tt> instance representing the activated account.</dd>
+<dt><tt class="docutils literal"><span class="pre">request</span></tt></dt>
+<dd>The <tt class="docutils literal"><span class="pre">HttpRequest</span></tt> in which the user activated.</dd>
+</dl>
+<p>This method should then return the <tt class="docutils literal"><span class="pre">User</span></tt> instance.</p>
+<p>For workflows which do not require a separate activation step, this
+method can and should raise <tt class="docutils literal"><span class="pre">NotImplementedError</span></tt>.</p>
+</div>
+<div class="section" id="registration-allowed-request">
+<h3>registration_allowed(request)<a class="headerlink" href="#registration-allowed-request" title="Permalink to this headline">¶</a></h3>
+<p>This method returns a boolean value indicating whether the given
+<tt class="docutils literal"><span class="pre">HttpRequest</span></tt> is permitted to register a new account (<tt class="xref docutils literal"><span class="pre">True</span></tt> if
+registration is permitted, <tt class="xref docutils literal"><span class="pre">False</span></tt> otherwise). It may determine this
+based on some aspect of the <tt class="docutils literal"><span class="pre">HttpRequest</span></tt> (e.g., the presence or
+absence of an invitation code in the URL), based on a setting (in the
+default backend, a setting can be used to disable registration),
+information in the database or any other information it can access.</p>
+<p>Arguments to this method are:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">request</span></tt></dt>
+<dd>The Django <tt class="docutils literal"><span class="pre">HttpRequest</span></tt> object in which a new user is
+attempting to register.</dd>
+</dl>
+<p>If this method returns <tt class="xref docutils literal"><span class="pre">False</span></tt>, the
+<a title="registration.views.register" class="reference external" href="views.html#registration.views.register"><tt class="xref docutils literal"><span class="pre">register()</span></tt></a> view will not display a form for
+account creation; instead, it will issue a redirect to a URL
+explaining that registration is not permitted.</p>
+</div>
+<div class="section" id="get-form-class-request">
+<h3>get_form_class(request)<a class="headerlink" href="#get-form-class-request" title="Permalink to this headline">¶</a></h3>
+<p>This method should return a form class &#8211; a subclass of
+<tt class="docutils literal"><span class="pre">django.forms.Form</span></tt> &#8211; suitable for use in registering users with
+this backend. As such, it should collect and validate any information
+required by the backend&#8217;s <tt class="docutils literal"><span class="pre">register</span></tt> method.</p>
+<p>Arguments to this method are:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">request</span></tt></dt>
+<dd>The Django <tt class="docutils literal"><span class="pre">HttpRequest</span></tt> object in which a new user is
+attempting to register.</dd>
+</dl>
+</div>
+<div class="section" id="post-registration-redirect-request-user">
+<h3>post_registration_redirect(request, user)<a class="headerlink" href="#post-registration-redirect-request-user" title="Permalink to this headline">¶</a></h3>
+<p>This method should return a location to which the user will be
+redirected after successful registration. This should be a tuple of
+<tt class="docutils literal"><span class="pre">(to,</span> <span class="pre">args,</span> <span class="pre">kwargs)</span></tt>, suitable for use as the arguments to <a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/http/shortcuts/#redirect">Django&#8217;s
+&#8220;redirect&#8221; shortcut</a>.</p>
+<p>Arguments to this method are:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">request</span></tt></dt>
+<dd>The Django <tt class="docutils literal"><span class="pre">HttpRequest</span></tt> object in which the user registered.</dd>
+<dt><tt class="docutils literal"><span class="pre">user</span></tt></dt>
+<dd>The <tt class="docutils literal"><span class="pre">User</span></tt> instance representing the new user account.</dd>
+</dl>
+</div>
+<div class="section" id="post-activation-redirect-request-user">
+<h3>post_activation_redirect(request, user)<a class="headerlink" href="#post-activation-redirect-request-user" title="Permalink to this headline">¶</a></h3>
+<p>For workflows which require a separate activation step, this method
+should return a location to which the user will be redirected after
+successful activation.  This should be a tuple of <tt class="docutils literal"><span class="pre">(to,</span> <span class="pre">args,</span>
+<span class="pre">kwargs)</span></tt>, suitable for use as the arguments to <a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/http/shortcuts/#redirect">Django&#8217;s &#8220;redirect&#8221;
+shortcut</a>.</p>
+<p>Arguments to this method are:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">request</span></tt></dt>
+<dd>The Django <tt class="docutils literal"><span class="pre">HttpRequest</span></tt> object in which the user activated.</dd>
+<dt><tt class="docutils literal"><span class="pre">user</span></tt></dt>
+<dd>The <tt class="docutils literal"><span class="pre">User</span></tt> instance representing the activated user account.</dd>
+</dl>
+<p>For workflows which do not require a separate activation step, this
+method can and should raise <tt class="docutils literal"><span class="pre">NotImplementedError</span></tt>.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">User registration backends</a><ul>
+<li><a class="reference external" href="#specifying-the-backend-to-use">Specifying the backend to use</a></li>
+<li><a class="reference external" href="#id1">Backend API</a><ul>
+<li><a class="reference external" href="#register-request-kwargs">register(request, **kwargs)</a></li>
+<li><a class="reference external" href="#activate-request-kwargs">activate(request, **kwargs)</a></li>
+<li><a class="reference external" href="#registration-allowed-request">registration_allowed(request)</a></li>
+<li><a class="reference external" href="#get-form-class-request">get_form_class(request)</a></li>
+<li><a class="reference external" href="#post-registration-redirect-request-user">post_registration_redirect(request, user)</a></li>
+<li><a class="reference external" href="#post-activation-redirect-request-user">post_activation_redirect(request, user)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="upgrade.html"
+                                  title="previous chapter">Upgrade guide</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="default-backend.html"
+                                  title="next chapter">The default backend</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/backend-api.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="default-backend.html" title="The default backend"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="upgrade.html" title="Upgrade guide"
+             >previous</a> |</li>
+        <li><a href="index.html">django-registration v0.8 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, James Bennett.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Registration views &mdash; django-registration v0.8 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.8',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="django-registration v0.8 documentation" href="index.html" />
+    <link rel="next" title="Custom signals used by django-registration" href="signals.html" />
+    <link rel="prev" title="Forms for user registration" href="forms.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="signals.html" title="Custom signals used by django-registration"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="forms.html" title="Forms for user registration"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">django-registration v0.8 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <span class="target" id="views"></span><div class="section" id="registration-views">
+<span id="module-registration.views"></span><h1>Registration views<a class="headerlink" href="#registration-views" title="Permalink to this headline">¶</a></h1>
+<p>In order to allow users to register using whatever workflow is
+implemented by the <a class="reference external" href="backend-api.html#backend-api"><em>registration backend</em></a> in use,
+django-registration provides two views. Both are designed to allow
+easy configurability without writing or rewriting view code.</p>
+<dl class="function">
+<dt id="registration.views.activate">
+<tt class="descclassname">registration.views.</tt><tt class="descname">activate</tt><big>(</big><em>request</em>, <em>backend</em><span class="optional">[</span>, <em>template_name</em><span class="optional">[</span>, <em>success_url</em><span class="optional">[</span>, <em>extra_context</em><span class="optional">[</span>, <em>**kwargs</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#registration.views.activate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Activate a user&#8217;s account, for workflows which require a separate
+activation step.</p>
+<p>The actual activation of the account will be delegated to the
+backend specified by the <tt class="docutils literal"><span class="pre">backend</span></tt> keyword argument; the
+backend&#8217;s <tt class="docutils literal"><span class="pre">activate()</span></tt> method will be called, passing the
+<tt class="docutils literal"><span class="pre">HttpRequest</span></tt> and any keyword arguments captured from the URL,
+and will be assumed to return a <tt class="docutils literal"><span class="pre">User</span></tt> if activation was
+successful, or a value which evaluates to <tt class="xref docutils literal"><span class="pre">False</span></tt> in boolean
+context if not.</p>
+<p>Upon successful activation, the backend&#8217;s
+<tt class="docutils literal"><span class="pre">post_activation_redirect()</span></tt> method will be called, passing the
+<tt class="docutils literal"><span class="pre">HttpRequest</span></tt> and the activated <tt class="docutils literal"><span class="pre">User</span></tt> to determine the URL to
+redirect the user to. To override this, pass the argument
+<tt class="docutils literal"><span class="pre">success_url</span></tt> (see below).</p>
+<p>On unsuccessful activation, will render the template
+<tt class="docutils literal"><span class="pre">registration/activate.html</span></tt> to display an error message; to
+override thise, pass the argument <tt class="docutils literal"><span class="pre">template_name</span></tt> (see below).</p>
+<p><strong>Context</strong></p>
+<p>The context will be populated from the keyword arguments captured
+in the URL. This view uses <tt class="docutils literal"><span class="pre">RequestContext</span></tt>, so variables
+populated by context processors will also be present in the
+context.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><em>backend</em> (string) &#8211; The dotted Python path to the backend class to use.</li>
+<li><em>extra_context</em> (dict) &#8211; Optionally, variables to add to the template
+context. Any callable object in this dictionary will be called
+to produce the final result which appears in the context.</li>
+<li><em>template_name</em> (string) &#8211; Optional. A custom template name to use. If
+not specified, this will default to
+<tt class="docutils literal"><span class="pre">registration/activate.html</span></tt>.</li>
+<li><em>**kwargs</em> &#8211; <p>Any keyword arguments captured from the URL, such
+as an activation key, which will be passed to the backend&#8217;s
+<tt class="docutils literal"><span class="pre">activate()</span></tt> method.</p>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="registration.views.register">
+<tt class="descclassname">registration.views.</tt><tt class="descname">register</tt><big>(</big><em>request</em>, <em>backend</em><span class="optional">[</span>, <em>success_url</em><span class="optional">[</span>, <em>form_class</em><span class="optional">[</span>, <em>disallowed_url</em><span class="optional">[</span>, <em>template_name</em><span class="optional">[</span>, <em>extra_context</em><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#registration.views.register" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allow a new user to register an account.</p>
+<p>The actual registration of the account will be delegated to the
+backend specified by the <tt class="docutils literal"><span class="pre">backend</span></tt> keyword argument. The backend
+is used as follows:</p>
+<ol class="arabic simple">
+<li>The backend&#8217;s <tt class="docutils literal"><span class="pre">registration_allowed()</span></tt> method will be called,
+passing the <tt class="docutils literal"><span class="pre">HttpRequest</span></tt>, to determine whether registration
+of an account is to be allowed; if not, a redirect is issued to
+a page indicating that registration is not permitted.</li>
+<li>The form to use for account registration will be obtained by
+calling the backend&#8217;s <tt class="docutils literal"><span class="pre">get_form_class()</span></tt> method, passing the
+<tt class="docutils literal"><span class="pre">HttpRequest</span></tt>. To override this, pass the keyword argument
+<tt class="docutils literal"><span class="pre">form_class</span></tt>.</li>
+<li>If valid, the form&#8217;s <tt class="docutils literal"><span class="pre">cleaned_data</span></tt> will be passed (as keyword
+arguments, and along with the <tt class="docutils literal"><span class="pre">HttpRequest</span></tt>) to the backend&#8217;s
+<tt class="docutils literal"><span class="pre">register()</span></tt> method, which should return a <tt class="docutils literal"><span class="pre">User</span></tt> object
+representing the new account.</li>
+<li>Upon successful registration, the backend&#8217;s
+<tt class="docutils literal"><span class="pre">post_registration_redirect()</span></tt> method will be called, passing
+the <tt class="docutils literal"><span class="pre">HttpRequest</span></tt> and the new <tt class="docutils literal"><span class="pre">User</span></tt>, to determine the URL
+to redirect to. To override this, pass the keyword argument
+<tt class="docutils literal"><span class="pre">success_url</span></tt>.</li>
+</ol>
+<p><strong>Context</strong></p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">form</span></tt></dt>
+<dd>The form instance being used to collect registration data.</dd>
+</dl>
+<p>This view uses <tt class="docutils literal"><span class="pre">RequestContext</span></tt>, so variables populated by
+context processors will also be present in the context.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><em>backend</em> (string) &#8211; The dotted Python path to the backend class to use.</li>
+<li><em>disallowed_url</em> (string) &#8211; The URL to redirect to if registration is
+not permitted (e.g., if registration is closed). This should be
+a string suitable for passing as the <tt class="docutils literal"><span class="pre">to</span></tt> argument to
+<a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/http/shortcuts/#redirect">Django&#8217;s &#8220;redirect&#8221; shortcut</a>. If
+not specified, this will default to <tt class="docutils literal"><span class="pre">registration_disallowed</span></tt>.</li>
+<li><em>extra_context</em> (dict) &#8211; Optionally, variables to add to the template
+context. Any callable object in this dictionary will be called
+to produce the final result which appears in the context.</li>
+<li><em>form_class</em> (subclass of <tt class="docutils literal"><span class="pre">django.forms.Form</span></tt>) &#8211; The form class to use for registration; this
+should be some subclass of <tt class="docutils literal"><span class="pre">django.forms.Form</span></tt>. If not
+specified, the backend&#8217;s <tt class="docutils literal"><span class="pre">get_form_class()</span></tt> method will be
+called to obtain the form class.</li>
+<li><em>success_url</em> (string) &#8211; <p>The URL to redirect to after successful
+registration. This should be a string suitable for passing as
+the <tt class="docutils literal"><span class="pre">to</span></tt> argument to <a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/http/shortcuts/#redirect">Django&#8217;s &#8220;redirect&#8221; shortcut</a>. If
+not specified, the backend&#8217;s <tt class="docutils literal"><span class="pre">post_registration_redirect()</span></tt>
+method will be called to obtain the URL.</p>
+</li>
+<li><em>template_name</em> (string) &#8211; Optional. A custom template name to use. If
+not specified, this will default to
+<tt class="docutils literal"><span class="pre">registration/registration_form.html</span></tt>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="forms.html"
+                                  title="previous chapter">Forms for user registration</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="signals.html"
+                                  title="next chapter">Custom signals used by django-registration</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/views.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="signals.html" title="Custom signals used by django-registration"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="forms.html" title="Forms for user registration"
+             >previous</a> |</li>
+        <li><a href="index.html">django-registration v0.8 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, James Bennett.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+  </body>
+</html>

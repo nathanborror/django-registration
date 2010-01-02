@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Custom signals used by django-registration &mdash; django-registration v0.8 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.8',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="django-registration v0.8 documentation" href="index.html" />
+    <link rel="next" title="Frequently-asked questions" href="faq.html" />
+    <link rel="prev" title="Registration views" href="views.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="faq.html" title="Frequently-asked questions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="views.html" title="Registration views"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">django-registration v0.8 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <span class="target" id="signals"></span><div class="section" id="custom-signals-used-by-django-registration">
+<span id="module-registration.signals"></span><h1>Custom signals used by django-registration<a class="headerlink" href="#custom-signals-used-by-django-registration" title="Permalink to this headline">¶</a></h1>
+<p>Much of django-registration&#8217;s customizability comes through the
+ability to write and use <a class="reference external" href="backend-api.html#backend-api"><em>registration backends</em></a>
+implementing different workflows for user registration. However, there
+are many cases where only a small bit of additional logic needs to be
+injected into the registration process, and writing a custom backend
+to support this represents an unnecessary amount of work. A more
+lightweight customization option is provided through two custom
+signals which backends are required to send at specific points during
+the registration process; functions listening for these signals can
+then add whatever logic is needed.</p>
+<p>For general documentation on signals and the Django dispatcher,
+consult <a class="reference external" href="http://docs.djangoproject.com/en/dev/topics/signals/">Django&#8217;s signals documentation</a>. This
+documentation assumes that you are familiar with how signals work and
+the process of writing and connecting functions which will listen for
+signals.</p>
+<dl class="data">
+<dt id="registration.signals.user_activated">
+<tt class="descclassname">registration.signals.</tt><tt class="descname">user_activated</tt><a class="headerlink" href="#registration.signals.user_activated" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sent when a user account is activated (not applicable to all
+backends). Provides the following arguments:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">sender</span></tt></dt>
+<dd>The backend class used to activate the user.</dd>
+<dt><tt class="docutils literal"><span class="pre">user</span></tt></dt>
+<dd>An instance of <tt class="docutils literal"><span class="pre">django.contrib.auth.models.User</span></tt>
+representing the activated account.</dd>
+<dt><tt class="docutils literal"><span class="pre">request</span></tt></dt>
+<dd>The <tt class="docutils literal"><span class="pre">HttpRequest</span></tt> in which the account was activated.</dd>
+</dl>
+</dd></dl>
+
+<dl class="data">
+<dt id="registration.signals.user_registered">
+<tt class="descclassname">registration.signals.</tt><tt class="descname">user_registered</tt><a class="headerlink" href="#registration.signals.user_registered" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sent when a new user account is registered. Provides the following
+arguments:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">sender</span></tt></dt>
+<dd>The backend class used to register the account.</dd>
+<dt><tt class="docutils literal"><span class="pre">user</span></tt></dt>
+<dd>An instance of <tt class="docutils literal"><span class="pre">django.contrib.auth.models.User</span></tt>
+representing the new account.</dd>
+<dt><tt class="docutils literal"><span class="pre">request</span></tt></dt>
+<dd>The <tt class="docutils literal"><span class="pre">HttpRequest</span></tt> in which the new account was registered.</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="views.html"
+                                  title="previous chapter">Registration views</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="faq.html"
+                                  title="next chapter">Frequently-asked questions</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/signals.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="faq.html" title="Frequently-asked questions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="views.html" title="Registration views"
+             >previous</a> |</li>
+        <li><a href="index.html">django-registration v0.8 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, James Bennett.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Release notes &mdash; django-registration v0.8 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.8',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="django-registration v0.8 documentation" href="index.html" />
+    <link rel="next" title="Upgrade guide" href="upgrade.html" />
+    <link rel="prev" title="Quick start guide" href="quickstart.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="upgrade.html" title="Upgrade guide"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="quickstart.html" title="Quick start guide"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">django-registration v0.8 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="release-notes">
+<span id="id1"></span><h1>Release notes<a class="headerlink" href="#release-notes" title="Permalink to this headline">¶</a></h1>
+<p>The 0.8 release of django-registration represents a complete
+rewrite of the previous codebase, and as such introduces a number of
+new features and greatly enhances the flexibility and customizability
+of django-registration. This document summarizes those features; for a
+list of changes which impact existing installations, consult <a class="reference external" href="upgrade.html#upgrade"><em>the
+upgrade guide</em></a>.</p>
+<div class="section" id="the-backend-system">
+<h2>The backend system<a class="headerlink" href="#the-backend-system" title="Permalink to this headline">¶</a></h2>
+<p>The largest overall change consists of factoring out the logic of user
+registration into pluggable/swappable backend classes. The
+<a class="reference external" href="views.html#views"><em>registration views</em></a> now accept a (required) argument,
+<tt class="docutils literal"><span class="pre">backend</span></tt>, which indicates the backend class to use, and that class
+has full control over the registration (and, if needed, activation)
+process, including:</p>
+<ul class="simple">
+<li>Determining whether registration will be allowed at all, on a
+per-request basis.</li>
+<li>Specifying a form class to use for account registration.</li>
+<li>Implementing the actual process of account creation.</li>
+<li>Determining whether a separate activation step is needed, and if so
+what it will entail.</li>
+<li>Specifying actions to take (e.g., redirects, automatic login, etc.)
+following successful registration or activation.</li>
+</ul>
+<p>For full details, see the documentation for <a class="reference external" href="backend-api.html#backend-api"><em>the backend API</em></a>.</p>
+<p>The workflow used by previous releases of django-registration
+(two-step registration/activation) has been implemented using this
+system, and is shipped as <a class="reference external" href="default-backend.html#default-backend"><em>the default backend</em></a>
+in django-registration 0.8.</p>
+</div>
+<div class="section" id="other-new-features">
+<h2>Other new features<a class="headerlink" href="#other-new-features" title="Permalink to this headline">¶</a></h2>
+<p>During the registration and (optional) activation process,
+<a class="reference external" href="signals.html#signals"><em>custom signals</em></a> are now sent, allowing easy injection
+of custom processing into the registration workflow without needing to
+write a full backend.</p>
+<p>The default backend now supplies several <a class="reference external" href="http://docs.djangoproject.com/en/dev/ref/contrib/admin/actions/">custom admin actions</a> to
+make the process of administering a site with django-registration
+simpler.</p>
+<p>The <a title="registration.views.activate" class="reference external" href="views.html#registration.views.activate"><tt class="xref docutils literal"><span class="pre">activate()</span></tt></a> view now supplies any
+captured keyword arguments from the URL (in the case of the default
+backend, this is the activation key) to its template in case of
+unsuccessful activation; this greatly simplifies the process of
+determining why activation failed and displaying appropriate error
+messages.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">Release notes</a><ul>
+<li><a class="reference external" href="#the-backend-system">The backend system</a></li>
+<li><a class="reference external" href="#other-new-features">Other new features</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="quickstart.html"
+                                  title="previous chapter">Quick start guide</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="upgrade.html"
+                                  title="next chapter">Upgrade guide</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/release-notes.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="upgrade.html" title="Upgrade guide"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="quickstart.html" title="Quick start guide"
+             >previous</a> |</li>
+        <li><a href="index.html">django-registration v0.8 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, James Bennett.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+# Sphinx inventory version 1
+# Project: django-registration
+# Version: 0.8
+registration.views mod views.html
+registration.backends.default mod default-backend.html
+registration.signals mod signals.html
+registration.forms mod forms.html
+registration.signals.user_registered data signals.html
+registration.models.RegistrationProfile.activation_key_expired method default-backend.html
+registration.models.RegistrationProfile class default-backend.html
+registration.views.activate function views.html
+registration.models.RegistrationManager.delete_expired_users method default-backend.html
+registration.models.RegistrationManager.create_inactive_user method default-backend.html
+registration.signals.user_activated data signals.html
+registration.models.RegistrationProfile.ACTIVATED attribute default-backend.html
+registration.forms.RegistrationForm class forms.html
+registration.models.RegistrationProfile.send_activation_email method default-backend.html
+registration.models.RegistrationProfile.activation_key attribute default-backend.html
+registration.forms.RegistrationFormUniqueEmail class forms.html
+registration.models.RegistrationManager class default-backend.html
+registration.forms.RegistrationFormNoFreeEmail class forms.html
+registration.models.RegistrationManager.activate_user method default-backend.html
+registration.models.RegistrationProfile.user attribute default-backend.html
+registration.forms.RegistrationFormTermsOfService class forms.html
+registration.views.register function views.html
+registration.models.RegistrationManager.create_profile method default-backend.html

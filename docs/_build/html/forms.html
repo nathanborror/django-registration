@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Forms for user registration &mdash; django-registration v0.8 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.8',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="django-registration v0.8 documentation" href="index.html" />
+    <link rel="next" title="Registration views" href="views.html" />
+    <link rel="prev" title="The default backend" href="default-backend.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="views.html" title="Registration views"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="default-backend.html" title="The default backend"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">django-registration v0.8 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <span class="target" id="forms"></span><div class="section" id="forms-for-user-registration">
+<span id="module-registration.forms"></span><h1>Forms for user registration<a class="headerlink" href="#forms-for-user-registration" title="Permalink to this headline">¶</a></h1>
+<p>Several form classes are provided with django-registration, covering
+common cases for gathering account information and implementing common
+constraints for user registration. These forms were designed with
+django-registration&#8217;s <a class="reference external" href="default-backend.html#default-backend"><em>default backend</em></a> in
+mind, but may also be useful in other situations.</p>
+<dl class="class">
+<dt id="registration.forms.RegistrationForm">
+<em class="property">class </em><tt class="descclassname">registration.forms.</tt><tt class="descname">RegistrationForm</tt><a class="headerlink" href="#registration.forms.RegistrationForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>A simple form for registering an account. Has the following fields,
+all of which are required:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">username</span></tt></dt>
+<dd>The username to use for the new account. This is represented as
+a text input which validates that the username is unique,
+consists entirely of alphanumeric characters and underscores
+and is at most 30 characters in length.</dd>
+<dt><tt class="docutils literal"><span class="pre">email</span></tt></dt>
+<dd>The email address to use for the new account. This is
+represented as a text input which accepts email addresses up to
+75 characters in length.</dd>
+<dt><tt class="docutils literal"><span class="pre">password1</span></tt></dt>
+<dd>The password to use for the new account. This represented as a
+password input (<tt class="docutils literal"><span class="pre">input</span> <span class="pre">type=&quot;password&quot;</span></tt> in the rendered HTML).</dd>
+<dt><tt class="docutils literal"><span class="pre">password2</span></tt></dt>
+<dd>The password to use for the new account. This represented as a
+password input (<tt class="docutils literal"><span class="pre">input</span> <span class="pre">type=&quot;password&quot;</span></tt> in the rendered HTML).</dd>
+</dl>
+<p>The constraints on usernames and email addresses match those
+enforced by Django&#8217;s default authentication backend for instances
+of <tt class="docutils literal"><span class="pre">django.contrib.auth.models.User</span></tt>. The repeated entry of the
+password serves to catch typos.</p>
+<p>Because it does not apply to any single field of the form, the
+validation error for mismatched passwords is attached to the form
+itself, and so must be accessed via the form&#8217;s
+<tt class="docutils literal"><span class="pre">non_field_errors()</span></tt> method.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="registration.forms.RegistrationFormTermsOfService">
+<em class="property">class </em><tt class="descclassname">registration.forms.</tt><tt class="descname">RegistrationFormTermsOfService</tt><a class="headerlink" href="#registration.forms.RegistrationFormTermsOfService" title="Permalink to this definition">¶</a></dt>
+<dd><p>A subclass of <a title="registration.forms.RegistrationForm" class="reference internal" href="#registration.forms.RegistrationForm"><tt class="xref docutils literal"><span class="pre">RegistrationForm</span></tt></a> which adds one additional,
+required field:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">tos</span></tt></dt>
+<dd>A checkbox indicating agreement to the site&#8217;s terms of
+service/user agreement.</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="registration.forms.RegistrationFormUniqueEmail">
+<em class="property">class </em><tt class="descclassname">registration.forms.</tt><tt class="descname">RegistrationFormUniqueEmail</tt><a class="headerlink" href="#registration.forms.RegistrationFormUniqueEmail" title="Permalink to this definition">¶</a></dt>
+<dd>A subclass of <a title="registration.forms.RegistrationForm" class="reference internal" href="#registration.forms.RegistrationForm"><tt class="xref docutils literal"><span class="pre">RegistrationForm</span></tt></a> which enforces uniqueness
+of email addresses in addition to uniqueness of usernames.</dd></dl>
+
+<dl class="class">
+<dt id="registration.forms.RegistrationFormNoFreeEmail">
+<em class="property">class </em><tt class="descclassname">registration.forms.</tt><tt class="descname">RegistrationFormNoFreeEmail</tt><a class="headerlink" href="#registration.forms.RegistrationFormNoFreeEmail" title="Permalink to this definition">¶</a></dt>
+<dd><p>A subclass of <a title="registration.forms.RegistrationForm" class="reference internal" href="#registration.forms.RegistrationForm"><tt class="xref docutils literal"><span class="pre">RegistrationForm</span></tt></a> which disallows
+registration using addresses from some common free email
+providers. This can, in some cases, cut down on automated
+registration by spambots.</p>
+<p>By default, the following domains are disallowed for email
+addresses:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">aim.com</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">aol.com</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">email.com</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">gmail.com</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">googlemail.com</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">hotmail.com</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">hushmail.com</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">msn.com</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">mail.ru</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">mailinator.com</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">live.com</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">yahoo.com</span></tt></li>
+</ul>
+<p>To change this, subclass this form and set the class attribute
+<tt class="docutils literal"><span class="pre">bad_domains</span></tt> to a list of domains you wish to disallow.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="default-backend.html"
+                                  title="previous chapter">The default backend</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="views.html"
+                                  title="next chapter">Registration views</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/forms.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="views.html" title="Registration views"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="default-backend.html" title="The default backend"
+             >previous</a> |</li>
+        <li><a href="index.html">django-registration v0.8 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, James Bennett.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.3.
+    </div>
+  </body>
+</html>
