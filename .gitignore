@@ -1,4 +1,4 @@
 *.pyc
-*.db
-*.txt
+.DS_Store
+docs/_build
 .hg*
