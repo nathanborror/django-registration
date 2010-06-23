@@ -11,7 +11,7 @@
 
 
 {% block content %}
-  <form action="." method="post">
+  <form action="." method="post">{% csrf_token %}
     {{ form.as_p }}
     <p class="submit"><button type="submit">Submit</button></p>
   </form>
