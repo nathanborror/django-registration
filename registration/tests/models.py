@@ -186,25 +186,6 @@ class RegistrationModelTests(TestCase):
         invalid_key = sha_constructor('foo').hexdigest()
         self.failIf(RegistrationProfile.objects.activate_user(invalid_key))
 
-    def test_expired_user_deletion(self):
-        """
-        ``RegistrationProfile.objects.delete_expired_users()`` only
-        deletes inactive users whose activation window has expired.
-        
-        """
-        new_user = RegistrationProfile.objects.create_inactive_user(site=Site.objects.get_current(),
-                                                                    **self.user_info)
-        expired_user = RegistrationProfile.objects.create_inactive_user(site=Site.objects.get_current(),
-                                                                        username='bob',
-                                                                        password='secret',
-                                                                        email='bob@example.com')
-        expired_user.date_joined -= datetime.timedelta(days=settings.ACCOUNT_ACTIVATION_DAYS + 1)
-        expired_user.save()
-
-        RegistrationProfile.objects.delete_expired_users()
-        self.assertEqual(RegistrationProfile.objects.count(), 1)
-        self.assertRaises(User.DoesNotExist, User.objects.get, username='bob')
-
     def test_management_command(self):
         """
         The ``cleanupregistration`` management command properly

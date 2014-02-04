@@ -367,6 +367,35 @@ class DefaultRegistrationBackendTests(TestCase):
         admin_class.activate_users(_mock_request(),
                                    RegistrationProfile.objects.all())
         self.failUnless(User.objects.get(username='alice').is_active)
+    
+    def test_expired_user_deletion(self):
+        """
+        ``DefaultBackend.delete_expired_users()`` only
+        deletes inactive users whose activation window has expired.
+        
+        """
+        new_user = RegistrationProfile.objects.create_inactive_user(site=Site.objects.get_current(),
+                                                                    username='alice',
+                                                                    password='swordfish',
+                                                                    email='alice@example.com')
+        expired_user = RegistrationProfile.objects.create_inactive_user(site=Site.objects.get_current(),
+                                                                        username='bob',
+                                                                        password='secret',
+                                                                        email='bob@example.com')
+        expired_user.date_joined -= datetime.timedelta(days=settings.ACCOUNT_ACTIVATION_DAYS + 1)
+        expired_user.save()
+        disabled_user = RegistrationProfile.objects.create_inactive_user(site=Site.objects.get_current(),
+                                                                         username='disabled',
+                                                                         password='password',
+                                                                         email='disabled@example.com')
+        disabled_user.activation_key = RegistrationProfile.ACTIVATED
+        disabled_user.save()
+
+        self.assertRaises(DeprecationWarning, RegistrationProfile.objects.delete_expired_users)
+        self.assertEqual(RegistrationProfile.objects.count(), 3)
+        self.backend.delete_expired_users()
+        self.assertEqual(RegistrationProfile.objects.count(), 2)
+        self.assertRaises(User.DoesNotExist, User.objects.get, username='bob')
 
 
 class SimpleRegistrationBackendTests(TestCase):

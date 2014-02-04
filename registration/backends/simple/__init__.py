@@ -4,10 +4,11 @@ from django.contrib.auth import login
 from django.contrib.auth.models import User
 
 from registration import signals
+from registration.backends.default import DefaultBackend
 from registration.forms import RegistrationForm
 
 
-class SimpleBackend(object):
+class SimpleBackend(DefaultBackend):
     """
     A registration backend which implements the simplest possible
     workflow: a user supplies a username, email address and password

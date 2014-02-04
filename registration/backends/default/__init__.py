@@ -137,3 +137,50 @@ class DefaultBackend(object):
         
         """
         return ('registration_activation_complete', (), {})
+
+    def delete_expired_users(self):
+        """
+        Remove expired instances of ``RegistrationProfile`` and their
+        associated ``User``s.
+        
+        Accounts to be deleted are identified by searching for
+        instances of ``RegistrationProfile`` with expired activation
+        keys, and then checking to see if their associated ``User``
+        instances have the field ``is_active`` set to ``False``; any
+        ``User`` who is both inactive and has an expired activation
+        key will be deleted.
+        
+        It is recommended that this method be executed regularly as
+        part of your routine site maintenance; this application
+        provides a custom management command which will call this
+        method, accessible as ``manage.py cleanupregistration``.
+        
+        Regularly clearing out accounts which have never been
+        activated serves two useful purposes:
+        
+        1. It alleviates the ocasional need to reset a
+           ``RegistrationProfile`` and/or re-send an activation email
+           when a user does not receive or does not act upon the
+           initial activation email; since the account will be
+           deleted, the user will be able to simply re-register and
+           receive a new activation key.
+        
+        2. It prevents the possibility of a malicious user registering
+           one or more accounts and never activating them (thus
+           denying the use of those usernames to anyone else); since
+           those accounts will be deleted, the usernames will become
+           available for use again.
+        
+        This method respects inactive ``User``s whose associated
+        ``RegistrationProfile`` has been marked as activated. In this case,
+        only the ``RegistrationProfile`` will be deleted, leaving the inactive
+        ``User`` (and related data) in place.
+        
+        """
+        for profile in RegistrationProfile.objects.all():
+            if profile.is_activated():
+                profile.delete()
+            elif profile.activation_key_expired():
+                user = profile.user
+                if not user.is_active:
+                    user.delete()

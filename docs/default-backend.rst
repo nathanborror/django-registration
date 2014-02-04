@@ -178,27 +178,6 @@ Additionally, :class:`RegistrationProfile` has a custom manager
       :type activation_key: string, a 40-character SHA1 hexdigest
       :rtype: ``User`` or bool
 
-   .. method:: delete_expired_users
-
-      Removes expired instances of :class:`RegistrationProfile`, and
-      their associated user accounts, from the database. This is
-      useful as a periodic maintenance task to clean out accounts
-      which registered but never activated.
-
-      Accounts to be deleted are identified by searching for instances
-      of :class:`RegistrationProfile` with expired activation keys and
-      with associated user accounts which are inactive (have their
-      ``is_active`` field set to ``False``). To disable a user account
-      without having it deleted, simply delete its associated
-      :class:`RegistrationProfile`; any ``User`` which does not have
-      an associated :class:`RegistrationProfile` will not be deleted.
-
-      A custom management command is provided which will execute this
-      method, suitable for use in cron jobs or other scheduled
-      maintenance tasks: ``manage.py cleanupregistration``.
-
-      :rtype: ``None``
-
    .. method:: create_inactive_user(username, email, password, site[, send_email])
 
       Creates a new, inactive user account and an associated instance
